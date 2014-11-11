@@ -1,0 +1,16 @@
+description "graylog2 server"
+author  "Mick Pollard <aussielunix@gmail.com>, Chris Aumann <me@chr4.org>"
+
+start on runlevel [2345]
+stop on runlevel [06]
+
+# tell upstart we're creating a daemon
+# upstart manages PID creation for you.
+expect fork
+
+respawn
+
+setuid <%= @user %>
+chdir  <%= @dir %>
+
+exec java -jar graylog2-server.jar -f <%= @configfile %> &

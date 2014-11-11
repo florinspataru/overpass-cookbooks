@@ -1,0 +1,41 @@
+{
+  "name": "graylog",
+  "description": "Installs/Configures graylog",
+  "long_description": "Installs/Configures graylog",
+  "maintainer": "Chris Aumann",
+  "maintainer_email": "me@chr4.org",
+  "license": "GNU Public License 3.0",
+  "platforms": {
+
+  },
+  "dependencies": {
+    "apt": ">= 0.0.0",
+    "mongodb": ">= 0.0.0",
+    "ark": ">= 0.0.0"
+  },
+  "recommendations": {
+
+  },
+  "suggestions": {
+
+  },
+  "conflicting": {
+
+  },
+  "providing": {
+
+  },
+  "replacing": {
+
+  },
+  "attributes": {
+
+  },
+  "groupings": {
+
+  },
+  "recipes": {
+
+  },
+  "version": "0.91.1"
+}

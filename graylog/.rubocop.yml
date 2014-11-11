@@ -1,0 +1,12 @@
+LineLength:
+  Max: 200
+
+HashSyntax:
+  EnforcedStyle: ruby19
+
+SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+Style/FileName:
+  Exclude:
+    - 'attributes/graylog2-web-interface.conf.rb'

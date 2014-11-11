@@ -1,0 +1,16 @@
+description "graylog2 web-interface"
+author  "Chris Aumann <me@chr4.org>"
+
+start on runlevel [2345]
+stop on runlevel [06]
+
+# tell upstart we're creating a daemon
+# upstart manages PID creation for you.
+expect fork
+
+respawn
+
+setuid <%= @user %>
+chdir  <%= @dir %>
+
+exec ./graylog2-web-interface &
