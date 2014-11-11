@@ -1,0 +1,10 @@
+#! /bin/sh
+BASEDIR=$(dirname $0)
+echo $BASEDIR
+sh $BASEDIR/liquibase --driver=com.mysql.jdbc.Driver \
+     --classpath=$BASEDIR/mysql-connector-java-5.1.30/mysql-connector-java-5.1.30-bin.jar \
+     --changeLogFile=$BASEDIR/changelog/changelog-master.xml \
+     --url="jdbc:mysql://localhost/<%= @database %>" \
+     --username=<%= @database_user %>\
+     --password=<%= @database_password %> \
+     migrate
