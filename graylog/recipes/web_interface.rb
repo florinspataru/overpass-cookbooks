@@ -20,7 +20,7 @@
 
 # Check whether application secret is set
 unless node['graylog']['web_interface']['graylog2-web-interface.conf']['application.secret']
-  fail <<-EOS
+  raise <<-EOS
     Application secret is not set!
     Please set the attribute `default['graylog']['web_interface']['graylog2-web-interface.conf']['application.secret']`
     In your node configuration or wrapper cookbook! Use at least 64 characters.
@@ -64,6 +64,6 @@ end
 
 service 'graylog2-web-interface' do
   supports   restart: true
-  action     [:enable, :start]
+  action     [ :enable, :start ]
   subscribes :restart, 'template[/usr/local/graylog2-web-interface/conf/graylog2-web-interface.conf]'
 end

@@ -6,7 +6,3 @@ HashSyntax:
 
 SingleSpaceBeforeFirstArg:
   Enabled: false
-
-Style/FileName:
-  Exclude:
-    - 'attributes/graylog2-web-interface.conf.rb'

@@ -42,9 +42,7 @@ default['graylog']['server']['graylog2.conf']['rest_enable_gzip'] = nil
 # pay attention to the working directory of the server, maybe use an absolute path here
 default['graylog']['server']['graylog2.conf']['elasticsearch_config_file'] = nil
 
-# (Approximate) maximum number of documents in an Elasticsearch index before a new index
-# is being created, also see no_retention and elasticsearch_max_number_of_indices.
-default['graylog']['server']['graylog2.conf']['elasticsearch_max_docs_per_index'] = 20_000_000
+default['graylog']['server']['graylog2.conf']['elasticsearch_max_docs_per_index'] = 20000000
 
 # How many indices do you want to keep?
 # elasticsearch_max_number_of_indices*elasticsearch_max_docs_per_index=total number of messages in your setup
@@ -60,7 +58,6 @@ default['graylog']['server']['graylog2.conf']['retention_strategy'] = 'delete'
 default['graylog']['server']['graylog2.conf']['elasticsearch_shards'] = 4
 default['graylog']['server']['graylog2.conf']['elasticsearch_replicas'] = 0
 
-# Prefix for all Elasticsearch indices and index aliases managed by Graylog2.
 default['graylog']['server']['graylog2.conf']['elasticsearch_index_prefix'] = 'graylog2'
 
 # Do you want to allow searches with leading wildcards? This can be extremely resource hungry and should only
@@ -101,10 +98,6 @@ default['graylog']['server']['graylog2.conf']['elasticsearch_network_host'] = ni
 default['graylog']['server']['graylog2.conf']['elasticsearch_network_bind_host'] = nil
 default['graylog']['server']['graylog2.conf']['elasticsearch_network_publish_host'] = nil
 
-# The total amount of time discovery will look for other Elasticsearch nodes in the cluster
-# before giving up and declaring the current node master.
-default['graylog']['server']['graylog2.conf']['elasticsearch_discovery_initial_state_timeout'] = nil
-
 # Analyzer (tokenizer) to use for message and full_message field. The "standard" filter usually is a good idea.
 # All supported analyzers are: standard, simple, whitespace, stop, keyword, pattern, language, snowball, custom
 # ElasticSearch documentation: http://www.elasticsearch.org/guide/reference/index-modules/analysis/
@@ -127,13 +120,6 @@ default['graylog']['server']['graylog2.conf']['output_flush_interval'] = 1
 # Raise this number if your buffers are filling up.
 default['graylog']['server']['graylog2.conf']['processbuffer_processors'] = 5
 default['graylog']['server']['graylog2.conf']['outputbuffer_processors'] = 3
-
-default['graylog']['server']['graylog2.conf']['outputbuffer_processor_keep_alive_time'] = nil
-default['graylog']['server']['graylog2.conf']['outputbuffer_processor_threads_core_pool_size'] = nil
-default['graylog']['server']['graylog2.conf']['outputbuffer_processor_threads_max_pool_size'] = nil
-
-# UDP receive buffer size for all message inputs (e. g. SyslogUDPInput).
-default['graylog']['server']['graylog2.conf']['udp_recvbuffer_sizes'] = nil
 
 # Wait strategy describing how buffer processors wait on a cursor sequence. (default: sleeping)
 # Possible types:
@@ -165,29 +151,6 @@ default['graylog']['server']['graylog2.conf']['dead_letters_enabled'] = false
 # shutdown process. Set to 0 if you have no status checking load balancers in front.
 default['graylog']['server']['graylog2.conf']['lb_recognition_period_seconds'] = 3
 
-# Every message is matched against the configured streams and it can happen that a stream contains rules which
-# take an unusual amount of time to run, for example if its using regular expressions that perform excessive backtracking.
-# This will impact the processing of the entire server. To keep such misbehaving stream rules from impacting other
-# streams, Graylog2 limits the execution time for each stream.
-# The default values are noted below, the timeout is in milliseconds.
-# If the stream matching for one stream took longer than the timeout value, and this happened more than "max_faults" times
-# that stream is disabled and a notification is shown in the web interface.
-default['graylog']['server']['graylog2.conf']['stream_processing_timeout'] = 2000
-default['graylog']['server']['graylog2.conf']['stream_processing_max_faults'] = nil
-
-# Since 0.21 the graylog2 server supports pluggable output modules. This means a single message can be written to multiple
-# outputs. The next setting defines the timeout for a single output module, including the default output module where all
-# messages end up. This setting is specified in milliseconds.
-
-# Time in milliseconds to wait for all message outputs to finish writing a single message.
-default['graylog']['server']['graylog2.conf']['output_module_timeout'] = nil
-
-# Time in milliseconds after which a detected stale master node is being rechecked on startup.
-default['graylog']['server']['graylog2.conf']['stale_master_timeout'] = nil
-
-# Time in milliseconds which Graylog2 is waiting for all threads to stop on shutdown.
-default['graylog']['server']['graylog2.conf']['shutdown_timeout'] = nil
-
 # MongoDB Configuration
 default['graylog']['server']['graylog2.conf']['mongodb_useauth'] = false
 default['graylog']['server']['graylog2.conf']['mongodb_user'] = nil
@@ -195,7 +158,7 @@ default['graylog']['server']['graylog2.conf']['mongodb_password'] = nil
 default['graylog']['server']['graylog2.conf']['mongodb_host'] = '127.0.0.1'
 default['graylog']['server']['graylog2.conf']['mongodb_replica_set'] = nil
 default['graylog']['server']['graylog2.conf']['mongodb_database'] = 'graylog2'
-default['graylog']['server']['graylog2.conf']['mongodb_port'] = 27_017
+default['graylog']['server']['graylog2.conf']['mongodb_port'] = 27017
 
 # Raise this according to the maximum connections your MongoDB server can handle if you encounter MongoDB connection problems.
 default['graylog']['server']['graylog2.conf']['mongodb_max_connections'] = 100
@@ -227,43 +190,3 @@ default['graylog']['server']['graylog2.conf']['transport_email_web_interface_url
 
 # HTTP proxy for outgoing HTTP calls
 default['graylog']['server']['graylog2.conf']['http_proxy_uri'] = nil
-
-# Switch to enable/disable the off-heap message cache. Stores cached messages in the spool directory if set to true.
-# Stores the messages in an in-memory data structure if set to false.
-default['graylog']['server']['graylog2.conf']['message_cache_off_heap'] = nil
-
-# Directory for the off-heap message cache data. (absolute or relative)
-# Default to /var/spool/graylog2, as /usr/local is not writeable
-default['graylog']['server']['graylog2.conf']['message_cache_spool_dir'] = '/var/spool/graylog2'
-
-# The commit interval for the message cache in milliseconds. Only affects message cache implementations that need to commit data.
-default['graylog']['server']['graylog2.conf']['message_cache_commit_interval'] = nil
-
-# When more messages are coming in as we can process, incoming messages will be cached in memory until
-# they are ready to be processed. Per default this data structure is unbounded, so in situations of
-# constant high load, it will grow endlessly until all allocatable memory has been consumed and the
-# process dies.
-# To prevent this, the next setting allows you to define an upper bound for this memory cache, if the
-# number of messages in the cache has reached this limit, incoming messages will be dropped until it
-# has shrunk again.
-#
-# The default is 0, which means no upper bound.
-#
-default['graylog']['server']['graylog2.conf']['input_cache_max_size'] = nil
-
-# Connection timeout for a configured LDAP server (e. g. ActiveDirectory) in milliseconds.
-default['graylog']['server']['graylog2.conf']['ldap_connection_timeout'] = nil
-
-# Version checks settings. All timeouts are in milliseconds.
-default['graylog']['server']['graylog2.conf']['versionchecks'] = nil
-default['graylog']['server']['graylog2.conf']['versionchecks_uri'] = nil
-default['graylog']['server']['graylog2.conf']['versionchecks_connection_request_timeout'] = nil
-default['graylog']['server']['graylog2.conf']['versionchecks_connect_timeout'] = nil
-default['graylog']['server']['graylog2.conf']['versionchecks_socket_timeout'] = nil
-
-# https://github.com/bazhenov/groovy-shell-server
-default['graylog']['server']['graylog2.conf']['groovy_shell_enable'] = nil
-default['graylog']['server']['graylog2.conf']['groovy_shell_port'] = nil
-
-# Enable collection of Graylog2-related metrics into MongoDB
-default['graylog']['server']['graylog2.conf']['enable_metrics_collection'] = nil

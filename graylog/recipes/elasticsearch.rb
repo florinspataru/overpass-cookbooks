@@ -27,11 +27,7 @@ apt_repository 'elasticsearch' do
 end
 
 package 'openjdk-7-jre'
-package 'elasticsearch' do
-  # Make sure elasticsearch is in the newest version.
-  # This is required because Graylog 0.91+ needs Elasticsearch 1.3
-  action :upgrade
-end
+package 'elasticsearch'
 
 template '/etc/elasticsearch/elasticsearch.yml' do
   mode      00644

@@ -11,10 +11,7 @@ Including the following support services:
 
 To quickly setup a working Graylog2 installation on a single node, do the following:
 
-1. Setup application secrets
-
-  This is required, as it would leave your Graylog2 installation insecure. Therefore the cookbook
-  will fail with an error message if you do not set them!
+1. Setup application secrets (This is important!)
 
   ```ruby
   # Set this to a random string, generated e.g. with "pwgen 96"
@@ -48,54 +45,6 @@ Currently tested on Ubuntu-14.04 LTS.
 - [MongoDB cookbook](https://github.com/hipsnip-cookbooks/mongodb)
 - [Ark cookbook](https://github.com/burtlo/ark)
 - [Apt cookbook](https://github.com/opscode-cookbooks/apt)
-
-
-## Notes
-
-Please do not expose the Graylog2 service directly in production. Instead, you
-should use a reverse proxy (e.g. [nginx](http://nginx.org)).
-This also adds the capability to use SSL to secure your logins.
-
-You can easily setup nginx using the [official nginx cookbook](https://github.com/opscode-cookbooks/nginx).
-Here's an example nginx site configuration you can use:
-
-```
-# Upstream to Graylog frontend
-proxy_next_upstream error timeout;
-upstream graylog2_web_interface {
-    server localhost:9000 fail_timeout=0;
-}
-
-# Redirect everything to https
-server {
-    listen 80;
-
-    return 301 https://graylog.example.com$request_uri;
-}
-
-server {
-    listen 443 ssl;
-
-    # SSL certificate
-    ssl_certificate /etc/nginx/certs/graylog.example.com.crt;
-    ssl_certificate_key /etc/nginx/certs/graylog.example.com.key;
-
-    location / {
-        root /usr/share/nginx/html;
-
-        proxy_pass_header Date;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host:$server_port;
-        proxy_redirect off;
-        proxy_set_header X_FORWARDED_PROTO $scheme;
-
-        chunked_transfer_encoding off;
-
-        proxy_pass http://graylog2_web_interface;
-    }
-}
-```
 
 
 ## Attributes

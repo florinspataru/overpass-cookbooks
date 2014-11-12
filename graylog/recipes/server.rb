@@ -20,7 +20,7 @@
 
 # Check whether password secret and root password is set
 unless node['graylog']['server']['graylog2.conf']['password_secret']
-  fail <<-EOS
+  raise <<-EOS
     Password secret is not set!
     Please set the attribute `default['graylog']['server']['graylog2.conf']['password_secret'] = 'CHANGE ME!'`
     In your node configuration or wrapper cookbook! Use at least 64 characters.
@@ -29,7 +29,7 @@ unless node['graylog']['server']['graylog2.conf']['password_secret']
 end
 
 unless node['graylog']['server']['graylog2.conf']['root_password_sha2']
-  fail <<-EOS
+  raise <<-EOS
     Admin password is not set!
     Please set the attribute `default['graylog']['server']['graylog2.conf']['root_password_sha2'] = '...'`
     In your node configuration or wrapper cookbook!
@@ -39,6 +39,7 @@ unless node['graylog']['server']['graylog2.conf']['root_password_sha2']
     "1d92dae504a70fbcae6d3721a55d7eacaf94d3133ea5f0394b7d203d64841110"
   EOS
 end
+
 
 # Installation
 ark 'graylog2-server' do
@@ -52,13 +53,6 @@ user node['graylog']['server']['user'] do
   system true
   home   '/nonexistent'
   shell  '/bin/false'
-end
-
-# Create spool directory
-directory node['graylog']['server']['graylog2.conf']['message_cache_spool_dir'] do
-  mode 00755
-  owner node['graylog']['server']['user']
-  group node['graylog']['server']['group']
 end
 
 # Configuration
@@ -88,7 +82,7 @@ end
 
 service 'graylog2-server' do
   supports restart: true
-  action [:enable, :start]
+  action [ :enable, :start ]
 
   subscribes :restart, 'template[/etc/graylog2.conf]'
   subscribes :restart, 'template[/etc/init/graylog2-server.conf]'
