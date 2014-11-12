@@ -32,7 +32,7 @@ default[:mysql][:debian_sys_maintainer_user]     = 'debian-sys-maint'
 default[:mysql][:debian_sys_maintainer_password] = debian_pw
 
 default[:mysql][:bind_address]         = '0.0.0.0'
-default[:mysql][:port]                 = '3306'
+default[:mysql][:port]                 = 3306
 
 case node[:platform]
 when 'centos','redhat','fedora','amazon'
