@@ -8,4 +8,4 @@
 default[:composer][:install_globally] = false
 default[:composer][:prefix] = "/usr/local"
 default[:composer][:url] = "https://getcomposer.org/installer"
-default[:composer][:install_dir] = default['app']['base_dir']
+#default[:composer][:install_dir] = default['app']['base_dir']
