@@ -10,5 +10,13 @@ node[:deploy].each do |application, deploy|
     deploy_data deploy
     app application
   end
+  
+  script "composer-install" do
+    interpreter "bash"
+    cwd "#{deploy[:deploy_to]}/current"
+    code <<-EOH
+    composer install
+    EOH
+  end
 
 end
