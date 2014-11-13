@@ -15,7 +15,7 @@ node[:deploy].each do |application, deploy|
     interpreter "bash"
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
-    composer install
+composer install
     EOH
   end
 
